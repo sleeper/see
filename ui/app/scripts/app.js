@@ -7,7 +7,7 @@ angular.module('seeApp', [])
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/chatroom', {
+      .when('/chatrooms/:name', {
         templateUrl: 'views/chatroom.html',
         controller: 'ChatroomCtrl'
       })

@@ -1,10 +1,7 @@
 <div class="container-fluid">
-  <div ng-controller="NewPostCtrl">
-    <textarea ng-click='toggleForm()' placeholder="What's up ?"></textarea>
-  </div>
   <div class="row-fluid">
-    <div class="span10" ng-controller="SharedPostsCtrl">
-      <div ng-repeat="value in posts"><post post="value"></post></div>
+    <div class="span10">
+      {{name}}
     </div>
     <div class="span2">
       Connected users
