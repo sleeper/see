@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>See</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="seeApp">
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view></div>
+
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular-resource/angular-resource.js"></script>
+    <script src="components/angular-cookies/angular-cookies.js"></script>
+    <script src="components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!-- build:js scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/UserDropDown.js"></script>
+    <script src="scripts/services/AuthService.js"></script>
+    <script src="scripts/controllers/ChatroomsList.js"></script>
+    <!-- endbuild -->
+
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a href="#" class="brand">See</a>
+          <ul class="nav pull-right">
+            <li class="dropdown" ng-controller="UserDropdownCtrl" >
+              <div ng-show="userLoggedIn()" class="navbar-text">
+                <i class="icon-user icon-white"></i> Logged in as {{currentUser}}
+              </div>
+              <div ng-hide="userLoggedIn()">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+                  <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                    Here I am
+                  </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+
+
+
+  </body>
+</html>

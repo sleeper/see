@@ -1,0 +1,5 @@
+<div class="container-fluid" ng-controller="ChatroomsListCtrl">
+<ul>
+  <li ng-repeat="chatroom in chatrooms"><a href="/chatrooms/{{chatroom.name}}">{{chatroom.name}}</a> - {{chatroom.userCount}}</li>
+</ul>
+</div>
