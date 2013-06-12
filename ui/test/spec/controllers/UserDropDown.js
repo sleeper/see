@@ -3,7 +3,7 @@
 describe('Controller: UserDropDownCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('uiApp'));
+  beforeEach(module('seeApp'));
 
   var UserDropDownCtrl,
     scope;
@@ -16,7 +16,11 @@ describe('Controller: UserDropDownCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach a currentUser to the scope', function () {
+    expect(scope.currentUser);
+  });
+
+  it('should attach a userLoggedIn to the scope', function () {
+    expect(scope.userLoggedIn);
   });
 });

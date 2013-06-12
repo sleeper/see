@@ -3,7 +3,7 @@
 describe('Controller: ChatroomsListCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('uiApp'));
+  beforeEach(module('seeApp'));
 
   var ChatroomsListCtrl,
     scope;
@@ -16,7 +16,7 @@ describe('Controller: ChatroomsListCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach a list of chatrooms to the scope', function () {
+    expect(scope.chatrooms);
   });
 });
