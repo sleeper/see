@@ -15,3 +15,8 @@ body {
     padding-right: 5px;
   }
 }
+
+#selfVideo {
+	width: 300px;
+	height: 300px;
+}

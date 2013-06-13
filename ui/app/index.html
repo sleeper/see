@@ -17,7 +17,8 @@
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
-
+    <script src="scripts/ext/webrtc.io.js"></script>
+    
     <!-- build:js scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
@@ -25,10 +26,10 @@
     <script src="scripts/services/AuthService.js"></script>
     <script src="scripts/controllers/ChatroomsList.js"></script>
     <script src="scripts/controllers/Chatroom.js"></script>
-    <script src="scripts/controllers/Navbar.js"></script>
+    <script src="scripts/services/WebRTC.js"></script>
     <!-- endbuild -->
 
-    <div class="navbar navbar-fixed-top navbar-inverse" ng-controller="NavbarCtrl">
+    <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a href="#" class="brand">See</a>
