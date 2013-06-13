@@ -2,7 +2,7 @@
 
 angular.module('seeApp')
   .factory('WebRTC', function () {
-    var WebSocketServerAddr = "ws://localhost:8001"
+    var WebSocketServerAddr = "ws://ncepspa245:8001"
     // Our WebRTC.io hook
     var rtc = window.rtc;
     var URL = window.URL;
@@ -19,7 +19,7 @@ angular.module('seeApp')
 
     rtc.on('disconnect stream', function(socketId) {
       if (onRemoteDisconnectCb) {
-        onRemoteDisconnectCb(stream, socketId);
+        onRemoteDisconnectCb(socketId);
       } else {
         console.log("Watch out: no onRemoteDisconnect function registered.")
       }

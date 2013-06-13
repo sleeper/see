@@ -47,8 +47,8 @@ module.exports = function (grunt) {
       options: {
         port: 8000,
         // Change this to '0.0.0.0' to access the server from outside.
-        //hostname: 'localhost'
-	hostname: '0.0.0.0'
+//        hostname: 'localhost'
+        hostname: '0.0.0.0'
       },
       livereload: {
         options: {
@@ -266,7 +266,7 @@ module.exports = function (grunt) {
   grunt.registerTask('server', [
     'clean:server',
     'coffee:dist',
-    'compass:server',
+//    'compass:server',
     'livereload-start',
     'connect:livereload',
     'open',
