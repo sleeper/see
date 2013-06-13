@@ -1,7 +1,15 @@
 <div class="container-fluid" ng-controller="ChatroomsListCtrl">
-<ul>
-  <li ng-repeat="chatroom in chatrooms"><a href="/#/chatrooms/{{chatroom.name}}">{{chatroom.name}}</a> - {{chatroom.userCount}}</li>
-</ul>
-<input ng-model="newChartoom.name"></input>
-{{newChatroom.name}}
+  <h1> Chatrooms </h1>
+  <ul>
+    <li ng-repeat="chatroom in chatrooms">
+      <a href="/#/chatrooms/{{chatroom.name}}">{{chatroom.name}}</a> - {{chatroom.userCount}}
+    </li>
+  </ul>
+
+  <form class="form-horizontal">
+    <div class="control-group">
+      <input type="text" id="inputName" placeholder="Chatroom name" ng-model="newChatroom.name"></input>
+      <button class="btn btn-primary">Create</button>
+    </div>
+  </form>
 </div>
