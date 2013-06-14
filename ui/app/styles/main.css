@@ -15,6 +15,16 @@ body {
     padding-right: 5px;
   }
 }
+#title {
+  display: block;
+  padding: 10px 20px 10px;
+}
+
+#inputMessage {
+  position: relative;
+  bottom: 0;
+  left: 0;
+}
 
 #selfVideo {
 	width: 300px;

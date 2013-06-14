@@ -6,7 +6,12 @@
     <div class="span2" id="right-column">
       <div class="row-fluid">
         <video id="selfVideo" autoplay></video>
-        <div>Connected users</div>
+        <div class="messages" ng-controller="MessagesCtrl">
+          <div ng-repeat="message in messages">
+            <span class="peer">{{message.author}}</span>: <span class="message">{{message.body}}</span>
+          </div>
+          <input id="inputMessage" ng-model="newMessage.body"></input>
+        </div>
       </div>
     </div>
   </div>

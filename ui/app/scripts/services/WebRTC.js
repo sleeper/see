@@ -2,7 +2,7 @@
 
 angular.module('seeApp')
   .factory('WebRTC', function () {
-    var WebSocketServerAddr = "ws://ncepspa245:8001"
+    var WebSocketServerAddr = "ws://0.0.0.0:8001"
     // Our WebRTC.io hook
     var rtc = window.rtc;
     var URL = window.URL;
@@ -35,17 +35,18 @@ angular.module('seeApp')
         'audio': true
         }, function (stream) {
           element.src = URL.createObjectURL(stream);
+          element.volume = 0;
         });
         rtc.connect(WebSocketServerAddr, roomName);
       },
 
-      // When a remote peer is connecting the furnished callback 
+      // When a remote peer is connecting the furnished callback
       // will be called with the stream and socketId as parameters
       onRemoteConnect: function(callback){
         onRemoteConnectCb = callback;
       },
 
-      // When a remote peer is disconnecting the furnished callback 
+      // When a remote peer is disconnecting the furnished callback
       // will be called with the socketId as parameters
       onRemoteDisconnect: function(callback) {
         onRemoteDisconnectCb = callback;
