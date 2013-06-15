@@ -2,9 +2,22 @@
 
 angular.module('seeApp')
   .controller('ChatroomCtrl', function ($scope, $routeParams, Page, WebRTC) {
-
+    $scope.peersCounter = 0;
     $scope.name = $routeParams.name;
     Page.setTitle($scope.name);
+
+    var resizeVideos = function() {
+      var videoElements = $('#videos').children();
+      var width;
+
+      if ($scope.peersCounter !== 0) {
+        width = (Math.ceil( 100 / $scope.peersCounter) - 1)+ '%';
+      } else {
+        width = '100%';
+      }
+      console.log('New width: %s', width);
+      videoElements.width(width);
+    };
 
     WebRTC.connect($scope.name, document.getElementById('selfVideo'));
 
@@ -13,7 +26,10 @@ angular.module('seeApp')
       // Add a place where to hook the videos elements
       // attach the stream
       console.log('Remote peer %s is connecting ...', socketId);
+      $scope.peersCounter += 1;
+
       $('#videos').append($('<video id="' + socketId + '" autoplay></video>'));
+      resizeVideos();
       window.rtc.attachStream(stream, socketId);
     });
 
@@ -21,6 +37,9 @@ angular.module('seeApp')
     WebRTC.onRemoteDisconnect(function(socketId) {
       // Remove the video element
       console.log('Remote peer %s is discconnecting ...', socketId);
+      $scope.peersCounter -= 1;
       $('#' + socketId).remove();
+      resizeVideos();
+
     });
   });

@@ -5,7 +5,7 @@ angular.module('seeApp', [])
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'ChatroomsListCtrl'
       })
       .when('/chatrooms/:name', {
         templateUrl: 'views/chatroom.html',
