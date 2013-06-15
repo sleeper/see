@@ -1,3 +1,3 @@
 'use strict';
 
-var webRTC = require('webrtc.io').listen(8001);
+require('webrtc.io').listen(8001);
