@@ -4,8 +4,10 @@
     </div>
     <div class="span2" id="right-column">
       <div class="row-fluid">
-        <video id="selfVideo" autoplay></video>
-        <div class="messages" ng-controller="MessagesCtrl">
+        <div class="span12">
+          <video id="selfVideo" autoplay></video>
+        </div>
+        <div class="messages span12" ng-controller="MessagesCtrl">
           <div ng-repeat="message in messages">
             <span class="peer">{{message.author}}</span>: <span class="message">{{message.body}}</span>
           </div>
