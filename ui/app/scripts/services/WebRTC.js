@@ -28,11 +28,11 @@ angular.module('seeApp')
     // Public API here
     return {
       connect: function (roomName, element) {
-        console.log("About to connect to %s and hook it up to ", roomName, element);
+        console.log('About to connect to %s and hook it up to ', roomName, element);
 
         rtc.createStream({
-        'video': true,
-        'audio': true
+          'video': true,
+          'audio': true
         }, function (stream) {
           element.src = URL.createObjectURL(stream);
           element.volume = 0;
