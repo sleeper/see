@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('seeApp')
-  .factory('WebRTC', function () {
-    var WebSocketServerAddr = "ws://0.0.0.0:8001"
+  .factory('WebRTC', ['$window', function ($window) {
+    var WebSocketServerAddr = 'ws://0.0.0.0:8001';
     // Our WebRTC.io hook
-    var rtc = window.rtc;
-    var URL = window.URL;
+    var rtc = $window.rtc;
+    var URL = $window.URL;
     var onRemoteConnectCb;
     var onRemoteDisconnectCb;
 
@@ -13,7 +13,7 @@ angular.module('seeApp')
       if (onRemoteConnectCb) {
         onRemoteConnectCb(stream, socketId);
       } else {
-        console.log("Watch out: no onRemoteConnect function registered.")
+        console.log('Watch out: no onRemoteConnect function registered.');
       }
     });
 
@@ -21,7 +21,7 @@ angular.module('seeApp')
       if (onRemoteDisconnectCb) {
         onRemoteDisconnectCb(socketId);
       } else {
-        console.log("Watch out: no onRemoteDisconnect function registered.")
+        console.log('Watch out: no onRemoteDisconnect function registered.');
       }
     });
 
@@ -52,4 +52,4 @@ angular.module('seeApp')
         onRemoteDisconnectCb = callback;
       }
     };
-  });
+  }]);

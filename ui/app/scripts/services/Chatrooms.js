@@ -2,17 +2,17 @@
 
 angular.module('seeApp')
   .factory('Chatrooms', function () {
-    var WebSocketServerAddr = "ws://0.0.0.0:8001"
+    var WebSocketServerAddr = 'ws://0.0.0.0:8001';
     var _id = 1;
     var callbacks = {};
     var filters = {
       'rooms_list': function (data) { return data.chatrooms; },
-      'room_created': function(data) { return data.name }
+      'room_created': function(data) { return data.name; }
     };
     var socket = new WebSocket(WebSocketServerAddr);
 
     socket.onopen = function() {
-      console.log("Websocket opened");
+      console.log('Websocket opened');
     };
 
     socket.onmessage = function(e) {

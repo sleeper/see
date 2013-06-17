@@ -5,6 +5,19 @@ describe('Service: WebRTC', function () {
   // load the service's module
   beforeEach(module('seeApp'));
 
+  beforeEach(function() {
+
+    var windowMock = {
+      rtc: {
+        on: function() {}
+      },
+    };
+
+    module(function($provide){
+      $provide.value('$window', windowMock);
+    });
+  });
+
   // instantiate service
   var WebRTC;
   beforeEach(inject(function (_WebRTC_) {

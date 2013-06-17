@@ -2,6 +2,7 @@
 
 angular.module('seeApp', [])
   .config(function ($routeProvider) {
+      // $locationProvider.html5Mode(true);
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -14,4 +15,6 @@ angular.module('seeApp', [])
       .otherwise({
         redirectTo: '/'
       });
+
+      // $locationProvider.html5Mode(true);
   });
