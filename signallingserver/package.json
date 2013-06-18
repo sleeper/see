@@ -2,7 +2,8 @@
   "name": "see",
   "version": "0.0.1",
   "dependencies": {
-    "webrtc.io": "~0.0.4"
+    "webrtc.io": "~0.0.4",
+    "express": "3.x"
     },
   "devDependencies": {
 

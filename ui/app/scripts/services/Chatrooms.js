@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('seeApp')
-  .factory('Chatrooms', function () {
+  .factory('Chatrooms', ['$resource', function ($resource) {
     var WebSocketServerAddr = 'ws://0.0.0.0:8001';
+    var Rooms = $resource('http://0.0.0.0\\:8002/rooms/:roomId');
+
     var _id = 1;
     var callbacks = {};
     var filters = {
@@ -59,19 +61,14 @@ angular.module('seeApp')
 
     // Public API here
     return {
-      getChatrooms: function (cb) {
-        // if (socket.readyState === 0) {
-        //   socket.onopen = function() {
-        //     requestList(cb);
-        //   };
-        // } else {
-        //   requestList(cb);
-        // }
-        protect( requestList, cb );
+      getChatrooms: function () {
+        var chatrooms = Rooms.get();
+        return chatrooms;
       },
 
       createChatroom: function(name, cb) {
-        protect( createRoom, name, cb);
+        // protect( createRoom, name, cb);
+        Rooms.save(name, cb);
       }
     };
-  });
+  }]);

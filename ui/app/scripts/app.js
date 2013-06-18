@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seeApp', [])
+angular.module('seeApp', ['ngResource'] )
   .config(function ($routeProvider) {
       // $locationProvider.html5Mode(true);
     $routeProvider
