@@ -1,4 +1,5 @@
 'use strict';
+var _ = require('lodash');
 var express = require('express');
 var manager = require('webrtc.io').listen(8001);
 
@@ -30,58 +31,53 @@ app.use(function(req, res, next) {
     next();
   }
 });
+
 app.use(express.bodyParser());
+
+var getRoomList = function(manager) {
+  var rooms = manager.rtc.rooms;
+  var roomList = _.map(rooms, function(sockets, name) {
+    return { name: name, userCount: sockets.length };
+  });
+  return roomList;
+};
 
 app.get('/rooms', function(req, res) {
   console.log('/rooms called');
-  res.send({
-    chatrooms: [{
-      name: 'Friends',
-      userCount: 5
-    },
-    {
-      name: 'Talking heads',
-      userCount: 3
-    }]
-  });
+  // var rooms = manager.rtc.rooms;
+  // var roomList = _.map(rooms, function(sockets, name) {
+  //   return { name: name, userCount: sockets.length };
+  // });
+  var roomList = getRoomList(manager);
+  console.log('[/rooms]: returning ', roomList);
+  res.send(roomList);
 });
 
 app.post('/rooms', function(req,res) {
   var name = req.body.name;
   console.log('Creating room %s', name);
+  // FIXME: Check the room does not yet exist
+  manager.rtc.rooms[name] = [];
   res.send(200);
 });
 
 app.listen(8002);
 
-manager.rtc.on('get_rooms_list', function(data, socket) {
-  console.log('FRED -> room_list received');
-  socket.send(JSON.stringify({
-    'eventName': 'rooms_list',
-    'data': {
-      id: data.id,
-      chatrooms: [{
-        name: 'Friends',
-        userCount: 5
-      },
-      {
-        name: 'Talking heads',
-        userCount: 3
-      }]
-    }
-  }));
+manager.rtc.on('join_room', function(data, socket) {
+  console.log('FRED: join_room called');
 });
 
-manager.rtc.on('create_room', function(data, socket) {
-  console.log('FRED -> create_room received');
-  // FIXME: Create room ;)
-
-  socket.send(JSON.stringify({
-    'eventName': 'room_created',
-    'data': {
-      id: data.id,
-      name: data.name,
+manager.rtc.on('room_leave', function(data, socket) {
+  // If one room is empty, remove it
+  var rooms = {};
+  _.each(manager.rtc.rooms, function(sockets,name) {
+    if (sockets.length !== 0) {
+      rooms[name] = sockets;
     }
-  }));
+  });
+  manager.rtc.rooms = rooms;
 
+  // Broadcast to all connected peers
+  var roomList = getRoomList(manager);
+  console.log('FRED: Rooms: ', roomList);
 });
