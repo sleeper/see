@@ -8,6 +8,7 @@ angular.module('seeApp')
 
     $scope.quit = function() {
       // Let's get out of this chatroom
+      WebRTC.disconnect();
       $('selfVideo').src = '';
       $location.path('/');
     };

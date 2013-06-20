@@ -8,6 +8,8 @@ angular.module('seeApp')
     var URL = $window.URL;
     var onRemoteConnectCb;
     var onRemoteDisconnectCb;
+    var localStream;
+    var selfElement;
 
     rtc.on('add remote stream', function(stream, socketId) {
       if (onRemoteConnectCb) {
@@ -34,6 +36,7 @@ angular.module('seeApp')
     return {
       connect: function (roomName, element) {
         console.log('About to connect to %s and hook it up to ', roomName, element);
+        selfElement = element;
 
         rtc.createStream({
           'video': true,
@@ -41,8 +44,14 @@ angular.module('seeApp')
         }, function (stream) {
           element.src = URL.createObjectURL(stream);
           element.volume = 0;
+          localStream = stream;
         });
         rtc.connect(WebSocketServerAddr, roomName);
+      },
+
+      disconnect: function() {
+        selfElement.src = '';
+        localStream.stop();
       },
 
       // When a remote peer is connecting the furnished callback
