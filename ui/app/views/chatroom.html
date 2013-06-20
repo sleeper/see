@@ -6,6 +6,7 @@
       <div class="row-fluid">
         <div class="span12">
           <video id="selfVideo" autoplay></video>
+          <button class="btn btn-primary" ng-click="quit()">Quit</button>
         </div>
         <div class="messages span12" ng-controller="MessagesCtrl">
           <div ng-repeat="message in messages">

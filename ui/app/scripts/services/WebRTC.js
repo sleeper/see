@@ -25,6 +25,11 @@ angular.module('seeApp')
       }
     });
 
+    rtc.on('rooms_list', function(data) {
+      console.log('FRED: roomList received ', data.roomsList);
+      // FIXME: Communicate the change to the ChatroomList controller
+    });
+
     // Public API here
     return {
       connect: function (roomName, element) {

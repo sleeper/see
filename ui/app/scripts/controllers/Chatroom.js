@@ -1,10 +1,16 @@
 'use strict';
 
 angular.module('seeApp')
-  .controller('ChatroomCtrl', function ($scope, $routeParams, Page, WebRTC) {
+  .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page, WebRTC) {
     $scope.peersCounter = 0;
     $scope.name = $routeParams.name;
     Page.setTitle($scope.name);
+
+    $scope.quit = function() {
+      // Let's get out of this chatroom
+      $('selfVideo').src = '';
+      $location.path('/');
+    };
 
     var resizeVideos = function() {
       var videoElements = $('#videos').children();

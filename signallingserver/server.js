@@ -79,5 +79,14 @@ manager.rtc.on('room_leave', function(data, socket) {
 
   // Broadcast to all connected peers
   var roomList = getRoomList(manager);
+  _.each(manager.rtc.sockets, function(sock) {
+    sock.send(JSON.stringify({
+      'eventName': 'rooms_list',
+      'data': {
+        'roomsList': roomList
+      }
+    }));
+  });
+
   console.log('FRED: Rooms: ', roomList);
 });
