@@ -5,9 +5,9 @@
     </li>
   </ul>
 
-  <form class="form-horizontal">
+  <form class="form-horizontal" name="newChatroom">
     <div class="control-group">
-      <input type="text" id="inputName" placeholder="Chatroom name" ng-model="newChatroom.name"></input>
-      <button class="btn btn-primary" ng-click="createRoom()">Create</button>
+      <input type="text" id="inputName" placeholder="Chatroom name" ng-model="newChatroom.name" required></input>
+      <button class="btn btn-primary" ng-disabled="!newChatroom.$valid" ng-click="createRoom(newChatroom)">Create</button>
     </div>
   </form>
