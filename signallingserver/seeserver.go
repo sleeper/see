@@ -7,21 +7,16 @@ import (
 	// "github.com/oskarth/wsevents"
 	"log"
 	"net/http"
-	"os"
-	"bufio"
 	// "text/template"
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
+
 // var homeTempl = template.Must(template.ParseFiles("index.html"))
 
 func homeHandler(c http.ResponseWriter, req *http.Request) {
 	// homeTempl.Execute(c, req.Host)
 	fmt.Print("Serving index.html\n")
-	var f, _ = os.Open("index.html")
-	defer f.Close()
-	var r = bufio.NewReader(f)
-	fmt.Println(r)
 	http.ServeFile(c, req, "index.html")
 }
 
