@@ -26,6 +26,21 @@ angular.module('ui2App')
       videoElements.width(width);
     };
 
+    var webrtc = new SimpleWebRTC({
+      url: 'http://0.0.0.0:8888',
+      // the id/element dom element that will hold "our" video
+      localVideoEl: 'selfVideo',
+      // the id/element dom element that will hold remote videos
+      remoteVideosEl: 'videos',
+      // immediately ask for camera access
+      autoRequestMedia: true
+    });
+
+    // we have to wait until it's ready
+    webrtc.on('readyToCall', function () {
+        // you can name it anything
+        webrtc.joinRoom($scope.name);
+      });
     // WebRTC.connect($scope.name, document.getElementById('selfVideo'));
 
     // Handle the connection from remote peers
