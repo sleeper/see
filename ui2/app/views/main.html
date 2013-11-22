@@ -1,0 +1,14 @@
+  <h1> Chatrooms </h1>
+  <ul>
+    <li ng-repeat="chatroom in chatrooms">
+      <a href="/#/chatrooms/{{chatroom.name}}">{{chatroom.name}}</a> - {{chatroom.userCount}}
+    </li>
+  </ul>
+
+  <form class="form-horizontal" name="newChatroom">
+    <div class="control-group">
+      <input type="text" id="inputName" placeholder="Chatroom name" ng-model="newChatroom.name" required not-in-set="chatrooms" ></input>
+      <button class="btn btn-primary" ng-disabled="!newChatroom.$valid" ng-click="createRoom(newChatroom)">Create</button>
+      <div class="error" ng-show="newChatroom.$error.notInSet">This chatroom already exist !!</div>
+    </div>
+  </form>

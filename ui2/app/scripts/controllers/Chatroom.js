@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('seeApp')
-  .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page, WebRTC) {
+angular.module('ui2App')
+  .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page) {
     $scope.peersCounter = 0;
     $scope.name = $routeParams.name;
     Page.setTitle($scope.name);

@@ -1,0 +1,15 @@
+{
+  "name": "see-server",
+  "version": "0.0.1",
+  "description": "See server. Inspired by signalmaster",
+  "dependencies": {
+    "async": "0.1.9",
+    "node-uuid": "1.2.0",
+    "underscore": "",
+    "precommit-hook": "",
+    "getconfig": "",
+    "socket.io": "",
+    "express": "3.x"
+  },
+  "main": "server.js"
+}
