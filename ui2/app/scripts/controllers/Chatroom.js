@@ -2,6 +2,7 @@
 
 angular.module('ui2App')
   .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page) {
+    $scope.hideWarning = false;
     $scope.peersCounter = 0;
     $scope.name = $routeParams.name;
     Page.setTitle($scope.name);
@@ -36,11 +37,32 @@ angular.module('ui2App')
       autoRequestMedia: true
     });
 
+    // Remove warning when local stream is acquired
+    webrtc.webrtc.on('localStream', function() {
+      $scope.$apply(function() {
+        $scope.hideWarning = true;
+      });
+    });
     // we have to wait until it's ready
     webrtc.on('readyToCall', function () {
-        // you can name it anything
-        webrtc.joinRoom($scope.name);
+      // you can name it anything
+      webrtc.joinRoom($scope.name);
+    });
+
+    webrtc.on('videoAdded', function() {
+      $scope.$apply(function() {
+        $scope.peersCounter += 1;
       });
+      resizeVideos();
+    });
+
+    webrtc.on('videoRemoved', function() {
+      $scope.$apply(function() {
+        $scope.peersCounter -= 1;
+      });
+      resizeVideos();
+    })
+
     // WebRTC.connect($scope.name, document.getElementById('selfVideo'));
 
     // Handle the connection from remote peers
