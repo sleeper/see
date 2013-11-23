@@ -19,10 +19,19 @@ describe('Controller: ChatroomCtrl', function () {
     var page = {
       setTitle: function(t) { pageTitle = t;}
     };
+    var webrtc = {
+      create: function() {
+
+      },
+      on: function() {
+
+      }
+    };
 
     $provide.value('$routeParams', routeParams);
     $provide.value('$location', location);
     $provide.value('Page', page);
+    $provide.value('Webrtc', webrtc);
   }));
 
   // Initialize the controller and a mock scope

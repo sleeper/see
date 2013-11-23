@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ui2App')
-  .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page) {
+  .controller('ChatroomCtrl', function ($scope, $routeParams, $location, Page, Webrtc) {
     $scope.hideWarning = false;
     $scope.peersCounter = 0;
     $scope.name = $routeParams.name;
@@ -27,7 +27,7 @@ angular.module('ui2App')
       videoElements.width(width);
     };
 
-    var webrtc = new SimpleWebRTC({
+    Webrtc.create({
       url: 'http://0.0.0.0:8888',
       // the id/element dom element that will hold "our" video
       localVideoEl: 'selfVideo',
@@ -38,30 +38,31 @@ angular.module('ui2App')
     });
 
     // Remove warning when local stream is acquired
-    webrtc.webrtc.on('localStream', function() {
+    Webrtc.on('localStream', function() {
       $scope.$apply(function() {
         $scope.hideWarning = true;
       });
     });
+
     // we have to wait until it's ready
-    webrtc.on('readyToCall', function () {
+    Webrtc.on('readyToCall', function () {
       // you can name it anything
-      webrtc.joinRoom($scope.name);
+      Webrtc.joinRoom($scope.name);
     });
 
-    webrtc.on('videoAdded', function() {
+    Webrtc.on('videoAdded', function() {
       $scope.$apply(function() {
         $scope.peersCounter += 1;
       });
       resizeVideos();
     });
 
-    webrtc.on('videoRemoved', function() {
+    Webrtc.on('videoRemoved', function() {
       $scope.$apply(function() {
         $scope.peersCounter -= 1;
       });
       resizeVideos();
-    })
+    });
 
     // WebRTC.connect($scope.name, document.getElementById('selfVideo'));
 
