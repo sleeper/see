@@ -5,16 +5,6 @@ var config = require('getconfig'),
   express = require('express'),
   io = require('socket.io').listen(config.server.socket.port);
 
-function describeRoom(name) {
-  var clients = io.sockets.clients(name);
-  var result = {
-      clients: {}
-    };
-  clients.forEach(function (client) {
-      result.clients[client.id] = client.resources;
-    });
-  return result;
-}
 
 function safeCb(cb) {
   if (typeof cb === 'function') {
@@ -24,7 +14,9 @@ function safeCb(cb) {
   }
 }
 
-io.sockets.on('connection', function (client) {
+io.of('/signalling').on('connection', function (client) {
+  var signallingChannel = io.of('/signalling');
+
   client.resources = {
     screen: false,
     video: true,
@@ -33,7 +25,7 @@ io.sockets.on('connection', function (client) {
 
     // pass a message to another id
   client.on('message', function (details) {
-    var otherClient = io.sockets.sockets[details.to];
+    var otherClient = signallingChannel.sockets[details.to];
     if (!otherClient) {
       return;
     }
@@ -54,14 +46,26 @@ io.sockets.on('connection', function (client) {
 
   client.on('join', join);
 
+  function describeRoom(name) {
+    var clients = signallingChannel.clients(name);
+    var result = {
+        clients: {}
+      };
+    clients.forEach(function (client) {
+        result.clients[client.id] = client.resources;
+      });
+    return result;
+  }
+
   function removeFeed(type) {
-    io.sockets.in(client.room).emit('remove', {
+    signallingChannel.in(client.room).emit('remove', {
       id: client.id,
       type: type
     });
   }
 
   function join(name, cb) {
+    console.log('FRED: joining room ' + name);
     // sanity check
     if (typeof name !== 'string') {
       return;
@@ -73,14 +77,24 @@ io.sockets.on('connection', function (client) {
     safeCb(cb)(null, describeRoom(name));
     client.join(name);
     client.room = name;
+    var clients = signallingChannel.clients(name);
+    console.log('FRED (join): roomUpdate -> room ' + name + ' users: ' + clients.length );
+    io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
   }
 
   // we don't want to pass "leave" directly because the
   // event type string of "socket end" gets passed too.
   client.on('disconnect', function () {
+    // io.of('/news').emit('leavingRoom', { name: 'fred', room: room});
     removeFeed();
   });
-  client.on('leave', removeFeed);
+
+  client.on('leave', function(name) {
+    removeFeed();
+    var clients = signallingChannel.clients(name);
+    console.log('FRED (leave): roomUpdate -> room ' + name + ' users: ' + clients.length );
+    io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
+  });
 
   client.on('create', function (name, cb) {
     if (arguments.length === 2) {
@@ -91,7 +105,7 @@ io.sockets.on('connection', function (client) {
       name = uuid();
     }
     // check if exists
-    if (io.sockets.clients(name).length) {
+    if (signallingChannel.clients(name).length) {
       safeCb(cb)('taken');
     } else {
       join(name);

@@ -10,6 +10,7 @@ angular.module('ui2App')
     $scope.quit = function() {
       // Let's get out of this chatroom
       // WebRTC.disconnect();
+      Webrtc.leaveRoom();
       $('selfVideo').src = '';
       $location.path('/');
     };
@@ -28,7 +29,7 @@ angular.module('ui2App')
     };
 
     Webrtc.create({
-      url: 'http://0.0.0.0:8888',
+      url: 'http://0.0.0.0:8888/signalling',
       // the id/element dom element that will hold "our" video
       localVideoEl: 'selfVideo',
       // the id/element dom element that will hold remote videos
@@ -42,10 +43,13 @@ angular.module('ui2App')
       $scope.$apply(function() {
         $scope.hideWarning = true;
       });
+      console.log('FRED ---->1');
+
     });
 
     // we have to wait until it's ready
     Webrtc.on('readyToCall', function () {
+      console.log('FRED ---->2');
       // you can name it anything
       Webrtc.joinRoom($scope.name);
     });

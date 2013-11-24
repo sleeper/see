@@ -5,6 +5,7 @@ angular.module('ui2App')
     // AngularJS will instantiate a singleton by calling "new" on this function
     this.create = function(cfg) {
       this.webrtc = new SimpleWebRTC(cfg);
+      this.connection = this.webrtc.connection;
     };
 
     this.on = function(event, callback) {
@@ -19,5 +20,9 @@ angular.module('ui2App')
     };
     this.joinRoom = function(name) {
       this.webrtc.joinRoom(name);
+    };
+    this.leaveRoom = function() {
+      this.webrtc.leaveRoom();
+      this.webrtc.stopLocalVideo();
     };
   });

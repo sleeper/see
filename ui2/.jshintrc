@@ -21,6 +21,8 @@
   "globals": {
     "angular": false,
     "jasmine": "false",
-    "SimpleWebRTC": false
+    "SimpleWebRTC": false,
+    "$": false,
+    "io": false
   }
 }
