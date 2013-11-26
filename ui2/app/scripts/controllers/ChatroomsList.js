@@ -6,7 +6,7 @@ angular.module('ui2App')
     $scope.chatrooms = Chatrooms.query();
 
     var findRoom = function(name) {
-      var rooms = $scope.chatrooms.filter(function(v) { if (v.name === name) { return true;}});
+      var rooms = $scope.chatrooms.filter(function(v) { if (v.name === name) { return true;}}) || [];
       return rooms[0];
     };
 
@@ -24,31 +24,39 @@ angular.module('ui2App')
       return deferred.promise;
     };
 
-    News.on('roomUpdate', function(data) {
+    News.onRoomUpdate(function(data) {
       console.log('FRED: Room '+data.name+' update: ' + data.userCount + ' users in');
       // Get room object and update count
       var room = findRoom(data.name);
       if (room) {
+        // If there's anybody in the room --> remove it
+        if (data.userCount === 0 ) {
+          var index = ($scope.chatrooms.map(function(v,i) { if (v.name === data.name) { return i;}}) || [])[0];
+          if (index > -1) {
+            $scope.chatrooms.splice(index, 1);
+          }
+        }
         room.userCount = data.userCount;
-      }
-
-    });
-
-    News.on('enteringRoom', function(data) {
-      console.log('FRED: '+data.name+' is entering room ' + data.room);
-      // Get room object and update count
-      var room = findRoom(data.room);
-      if (room) {
-        room.userCount += 1;
+      } else {
+        $scope.chatrooms.push({name: data.name, userCount: data.userCount});
       }
     });
 
-    News.on('leavingRoom', function(data) {
-      console.log('FRED: '+data.name+' is leaving room ' + data.room);
-      var room = findRoom(data.room);
-      if (room) {
-        room.userCount -= 1;
-      }
-    });
+    // News.on('enteringRoom', function(data) {
+    //   console.log('FRED: '+data.name+' is entering room ' + data.room);
+    //   // Get room object and update count
+    //   var room = findRoom(data.room);
+    //   if (room) {
+    //     room.userCount += 1;
+    //   }
+    // });
+
+    // News.on('leavingRoom', function(data) {
+    //   console.log('FRED: '+data.name+' is leaving room ' + data.room);
+    //   var room = findRoom(data.room);
+    //   if (room) {
+    //     room.userCount -= 1;
+    //   }
+    // });
 
   });

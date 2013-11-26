@@ -14,6 +14,20 @@ function safeCb(cb) {
   }
 }
 
+function getSignallingRooms() {
+  var rooms = [];
+  var re = /\/signalling\/(.+)$/;
+  for (var room in io.rooms) {
+    // if (room.match('\/signalling\/')) {
+    var m = re.exec(room);
+    if (m) {
+      rooms.push({name: m[1], userCount: io.rooms[room].length});
+    }
+  }
+  return rooms;
+}
+
+
 io.of('/signalling').on('connection', function (client) {
   var signallingChannel = io.of('/signalling');
 
@@ -58,10 +72,15 @@ io.of('/signalling').on('connection', function (client) {
   }
 
   function removeFeed(type) {
-    signallingChannel.in(client.room).emit('remove', {
+    var name = client.room;
+
+    signallingChannel.in(name).emit('remove', {
       id: client.id,
       type: type
     });
+    client.leave(name);
+    var clients = signallingChannel.clients(name);
+    io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
   }
 
   function join(name, cb) {
@@ -78,6 +97,7 @@ io.of('/signalling').on('connection', function (client) {
     client.join(name);
     client.room = name;
     var clients = signallingChannel.clients(name);
+    console.log('FRED --> rooms: ', getSignallingRooms());
     console.log('FRED (join): roomUpdate -> room ' + name + ' users: ' + clients.length );
     io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
   }
@@ -86,14 +106,20 @@ io.of('/signalling').on('connection', function (client) {
   // event type string of "socket end" gets passed too.
   client.on('disconnect', function () {
     // io.of('/news').emit('leavingRoom', { name: 'fred', room: room});
+    // var name = client.room;
     removeFeed();
+    // client.leave(client.room);
+    // var clients = signallingChannel.clients(name);
+    // console.log('FRED (disconnect): roomUpdate -> room ' + name + ' users: ' + clients.length );
+    // io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
   });
 
-  client.on('leave', function(name) {
+  client.on('leave', function() {
     removeFeed();
-    var clients = signallingChannel.clients(name);
-    console.log('FRED (leave): roomUpdate -> room ' + name + ' users: ' + clients.length );
-    io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
+    // client.leave(client.room);
+    // var clients = signallingChannel.clients(name);
+    // console.log('FRED (leave): roomUpdate -> room ' + name + ' users: ' + clients.length );
+    // io.of('/news').emit('roomUpdate', { name: name, userCount: clients.length});
   });
 
   client.on('create', function (name, cb) {
@@ -138,7 +164,8 @@ app.use(allowCrossDomain);
 
 app.get('/rooms', function(req, res){
   console.log('FRED: get all rooms ');
-  var chatrooms = [{name: 'the eden', userCount: 1}, {name: 'the water cooler', userCount: 0}];
+  // var chatrooms = [{name: 'the eden', userCount: 1}, {name: 'the water cooler', userCount: 0}];
+  var chatrooms = getSignallingRooms();
   res.json(chatrooms);
 });
 
@@ -147,6 +174,12 @@ app.get('/rooms/:roomId', function(req, res){
   var body = 'Hello World';
   res.send(body);
 });
+
+app.post('/rooms', function(req, res){
+  console.log('FRED: creating room ', req.params.roomId);
+  res.send();
+});
+
 app.listen(config.server.rest.port);
 
 console.log(' -- signal master is running at: http://localhost:' + config.server.socket.port);

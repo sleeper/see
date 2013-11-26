@@ -35,7 +35,8 @@ angular.module('ui2App')
       // the id/element dom element that will hold remote videos
       remoteVideosEl: 'videos',
       // immediately ask for camera access
-      autoRequestMedia: true
+      autoRequestMedia: true,
+      adjustPeerVolume: true
     });
 
     // Remove warning when local stream is acquired
@@ -43,13 +44,11 @@ angular.module('ui2App')
       $scope.$apply(function() {
         $scope.hideWarning = true;
       });
-      console.log('FRED ---->1');
 
     });
 
     // we have to wait until it's ready
     Webrtc.on('readyToCall', function () {
-      console.log('FRED ---->2');
       // you can name it anything
       Webrtc.joinRoom($scope.name);
     });
@@ -68,27 +67,4 @@ angular.module('ui2App')
       resizeVideos();
     });
 
-    // WebRTC.connect($scope.name, document.getElementById('selfVideo'));
-
-    // Handle the connection from remote peers
-    // WebRTC.onRemoteConnect(function(stream,socketId) {
-    //   // Add a place where to hook the videos elements
-    //   // attach the stream
-    //   console.log('Remote peer %s is connecting ...', socketId);
-    //   $scope.peersCounter += 1;
-
-    //   $('#videos').append($('<video id="' + socketId + '" autoplay></video>'));
-    //   resizeVideos();
-    //   window.rtc.attachStream(stream, socketId);
-    // });
-
-    // Handle remote disconnection
-    // WebRTC.onRemoteDisconnect(function(socketId) {
-    //   // Remove the video element
-    //   console.log('Remote peer %s is discconnecting ...', socketId);
-    //   $scope.peersCounter -= 1;
-    //   $('#' + socketId).remove();
-    //   resizeVideos();
-
-    // });
   });
