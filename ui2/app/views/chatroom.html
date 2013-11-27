@@ -17,6 +17,7 @@
             <span class="peer">{{message.author}}</span>: <span class="message">{{message.body}}</span>
           </div>
           <input id="inputMessage" ng-model="newMessage.body"></input>
+          <button class="btn btn-primary" ng-click="send()">Send</button>
         </div>
       </div>
     </div>

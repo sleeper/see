@@ -138,6 +138,11 @@ io.of('/signalling').on('connection', function (client) {
       safeCb(cb)(null, name);
     }
   });
+
+  client.on('newMessage', function(msg) {
+    console.log('FRED: New message received : ' + msg);
+    client.broadcast.emit('newMessage', msg);
+  });
 });
 
 if (config.uid) {

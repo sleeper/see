@@ -28,16 +28,16 @@ angular.module('ui2App')
       videoElements.width(width);
     };
 
-    Webrtc.create({
-      url: 'http://0.0.0.0:8888/signalling',
-      // the id/element dom element that will hold "our" video
-      localVideoEl: 'selfVideo',
-      // the id/element dom element that will hold remote videos
-      remoteVideosEl: 'videos',
-      // immediately ask for camera access
-      autoRequestMedia: true,
-      adjustPeerVolume: true
-    });
+    // Webrtc.create({
+    //   url: 'http://0.0.0.0:8888/signalling',
+    //   // the id/element dom element that will hold "our" video
+    //   localVideoEl: 'selfVideo',
+    //   // the id/element dom element that will hold remote videos
+    //   remoteVideosEl: 'videos',
+    //   // immediately ask for camera access
+    //   autoRequestMedia: true,
+    //   adjustPeerVolume: true
+    // });
 
     // Remove warning when local stream is acquired
     Webrtc.on('localStream', function() {
