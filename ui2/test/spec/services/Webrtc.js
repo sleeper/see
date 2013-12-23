@@ -12,12 +12,12 @@ describe('Service: Webrtc', function () {
   }));
 
   it('should use SimpleWebRTC', function () {
-    Webrtc.create({});
+    // Webrtc.create({});
     expect(Webrtc.webrtc).not.toBeUndefined();
   });
 
   it('should deffer on to SimpleWebRTC', function() {
-    Webrtc.create({});
+    // Webrtc.create({});
     spyOn(Webrtc.webrtc, 'on');
     Webrtc.on('videoAdded', function() {});
     expect(Webrtc.webrtc.on).toHaveBeenCalled();
